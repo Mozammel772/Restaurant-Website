@@ -7,7 +7,7 @@ import img2 from "../../../assets/home/02.jpg";
 import img3 from "../../../assets/home/03.png";
 const Banner = () => {
   return (
-    <div className="mt-20">
+    <div className="mt-20 relative">
       <Carousel>
         <div>
           <img src={img1} />

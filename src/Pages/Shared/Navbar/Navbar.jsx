@@ -1,7 +1,8 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Menu, X } from "lucide-react";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-scroll";
+// import { Link } from "react-scroll";
+import { Link } from "react-router-dom";
 import Container from "./Container";
 import { navigation } from "./Navigation";
 import SocialLinks from "./SocialLinks";
@@ -84,10 +85,6 @@ const Navbar = () => {
                   key={item?.title}
                   activeClass="active"
                   to={item?.link}
-                  spy={true}
-                  smooth={true}
-                  offset={-70}
-                  duration={500}
                   className="hover:text-white relative group flex items-center gap-2 cursor-pointer"
                 >
                   <span className="w-2.5 h-2.5 rounded-full border border-white/80 inline-flex group-hover:border-white" />{" "}
@@ -105,4 +102,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
