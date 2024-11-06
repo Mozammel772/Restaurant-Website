@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import SectionTittle from "../../Components/SectionTittle/SectionTittle";
+
+import SectionTittle from "../../../Components/SectionTittle/SectionTittle";
 import ChefDisplay from "./ChefDisplay";
 
 const ChefSection = () => {
