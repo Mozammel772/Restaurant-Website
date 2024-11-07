@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { useParams } from "react-router-dom";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import orderImg from "../../../assets/shop/banner2.jpg";
@@ -7,8 +8,13 @@ import useMenu from "../../../hooks/useMenu";
 import CoverSection from "../../Shared/CoverSection/CoverSection";
 import OrderTab from "../OrderTab/OrderTab";
 const Order = () => {
-  const [tabIndex, setTabIndex] = useState(0);
+  const categories = ["salad", "pizza", "soup", "dessert", "drinks"];
+  const { category } = useParams();
+  const initialIndex = categories.indexOf(category);
+  const [tabIndex, setTabIndex] = useState(initialIndex);
   const [menu] = useMenu();
+
+  console.log(category);
   const dessert = menu.filter((item) => item.category === "dessert");
   const pizza = menu.filter((item) => item.category === "pizza");
   const salad = menu.filter((item) => item.category === "salad");
@@ -17,7 +23,7 @@ const Order = () => {
   return (
     <div>
       <Helmet>
-        <title>Bisto Boss | Order Page</title>
+        <title>Bisto Boss | Order Food</title>
       </Helmet>
       <div>
         <CoverSection img={orderImg} tittle={"Our Shop"} />
