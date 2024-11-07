@@ -25,8 +25,8 @@ const MenuCategory = () => {
       <CoverSection img={CoverImage} tittle={"Our Menu"}></CoverSection>
       <SectionTittle subHeading={"Don't miss"} heading={"Today's Offer"} />
       <MenuCategory2 item={offered} />
-      <MenuCategory2 item={dessert} tittle={"Dessert"} img={img} />
-      <MenuCategory2 item={soup} tittle={"Soup"} img={soupImg} />
+      <MenuCategory2 item={dessert} tittle={"dessert"} img={img} />
+      <MenuCategory2 item={soup} tittle={"soup"} img={soupImg} />
       <MenuCategory2 item={pizza} tittle={"pizza"} img={pizzaImg} />
       <MenuCategory2 item={salad} tittle={"salad"} img={saladImg} />
     </div>
