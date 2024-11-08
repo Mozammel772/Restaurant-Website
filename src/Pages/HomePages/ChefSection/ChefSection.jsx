@@ -1,20 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import SectionTittle from "../../../Components/SectionTittle/SectionTittle";
+import useMenu from "../../../hooks/useMenu";
 import ChefDisplay from "./ChefDisplay";
 
 const ChefSection = () => {
-  const [chef, setChef] = useState([]);
-  useEffect(() => {
-    fetch("chef.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const chefData = data.filter(
-          (item) => item.name === "Escalope de Veau"
-        );
-        setChef(chefData);
-      });
-  }, []);
+  const [menu] = useMenu();
+  const chef = menu.filter((item) => item.name === "Escalope de Veau");
   return (
     <div className="my-10">
       <SectionTittle
