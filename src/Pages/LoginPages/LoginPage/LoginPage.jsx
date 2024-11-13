@@ -1,12 +1,18 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
   validateCaptcha,
 } from "react-simple-captcha";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const LoginPage = () => {
   const captchRef = useRef(null);
+  const [disable,setDisable] = useState(true)
+  const {signIn} = useContext(AuthContext)
+
+
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
@@ -17,12 +23,17 @@ const LoginPage = () => {
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+    signIn(email, password )
+    .then(result =>{
+      const user = result.user
+      console.log(user)
+    })
   };
   const handleValidateCaptcha = () => {
     const user_captcha_value = captchRef.current.value;
     console.log(user_captcha_value);
     if (validateCaptcha(user_captcha_value) === true) {
-      alert("Captcha validation");
+      setDisable(false) // Enable network after successful captcha validation
     } else {
       alert("Captcha is not valid");
     }
@@ -69,11 +80,6 @@ const LoginPage = () => {
                 className="input input-bordered"
                 required
               />
-              <label className="label">
-                <a href="#" className="label-text-alt link link-hover">
-                  Forgot password?
-                </a>
-              </label>
             </div>
             <div className="form-control">
               <label className="label">
@@ -95,9 +101,10 @@ const LoginPage = () => {
               Validation
             </button>
             <div className="form-control mt-6">
-              <input className="btn btn-primary" type="submit" value="Login" />
+              <input disabled={disable} className="btn btn-primary" type="submit" value="Login" />
             </div>
           </form>
+          <p><small>Create a New Account ? <Link to={"/register"}>Register Now</Link></small></p>
         </div>
       </div>
     </div>

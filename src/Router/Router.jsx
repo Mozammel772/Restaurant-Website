@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../layout/Main/Main";
 import Home from "../Pages/HomePages/Home/Home";
 import LoginPage from "../Pages/LoginPages/LoginPage/LoginPage";
+import Register from "../Pages/LoginPages/Register/Register";
 import MenuCategory from "../Pages/MenuPages/MenuCategory/MenuCategory";
 import Order from "../Pages/OrderPages/Order/Order";
 
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
         path: "/login",
         element: <LoginPage />,
       },
+      {
+        path:"/register",
+        element :<Register />,
+      }
     ],
   },
 ]);
