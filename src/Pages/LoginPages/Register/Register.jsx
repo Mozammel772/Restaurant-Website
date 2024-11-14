@@ -1,19 +1,40 @@
 import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 const Register = () => {
   const {
     register,
     handleSubmit,
+    reset,
     watch,
     formState: { errors },
   } = useForm();
-  const { createUser } = useContext(AuthContext);
+  const { createUser, updateProfileURL } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const onSubmit = (data) => {
+    console.log("onSubmit", data);
     createUser(data.email, data.password).then((result) => {
       const user = result.user;
       console.log(user);
+      updateProfileURL(data.name, data.photoURL)
+        .then(() => {
+          console.log("Profile updated successfully");
+          reset();
+          Swal.fire({
+            position: "top-end",
+            icon: "success",
+            title: "Create User successfully",
+            showConfirmButton: false,
+            timer: 1500,
+          });
+          navigate("/");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
   };
 
@@ -57,6 +78,23 @@ const Register = () => {
                 <p className="text-red-700 mt-1">
                   Alphabetical characters only
                 </p>
+              )}
+            </div>
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Name URL</span>
+              </label>
+              <input
+                type="text"
+                name="nameURL"
+                {...register("nameURL", {
+                  required: true,
+                })}
+                placeholder="name URL"
+                className="input input-bordered"
+              />
+              {errors?.nameURL?.type === "required" && (
+                <p className="text-red-700 mt-1">nameURL field is required</p>
               )}
             </div>
             <div className="form-control">

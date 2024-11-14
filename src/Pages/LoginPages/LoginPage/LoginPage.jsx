@@ -1,48 +1,53 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   LoadCanvasTemplate,
   loadCaptchaEnginge,
   validateCaptcha,
 } from "react-simple-captcha";
+import Swal from "sweetalert2";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 
 const LoginPage = () => {
-  const captchRef = useRef(null);
-  const [disable,setDisable] = useState(true)
-  const {signIn} = useContext(AuthContext)
+  const [disable, setDisable] = useState(true);
+  const { signIn } = useContext(AuthContext);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm();
+  const location = useLocation();
+  const navigate = useNavigate();
 
+  const from = location.state?.from?.pathname || "/";
 
   useEffect(() => {
     loadCaptchaEnginge(6);
   }, []);
 
-  const handleLogin = (event) => {
-    event.preventDefault();
-    const form = event.target;
-    const email = form.email.value;
-    const password = form.password.value;
-    console.log(email, password);
-    signIn(email, password )
-    .then(result =>{
-      const user = result.user
-      console.log(user)
-    })
+  const onSubmit = (data) => {
+    console.log("data received", data);
+    signIn(data.email, data.password).then((result) => {
+      const user = result.user;
+      console.log(user);
+      Swal.fire({
+        title: "Good job!",
+        text: "You clicked the button!",
+        icon: "success",
+      });
+      navigate(from, { replace: true });
+    });
   };
-  const handleValidateCaptcha = () => {
-    const user_captcha_value = captchRef.current.value;
+  const handleValidateCaptcha = (e) => {
+    const user_captcha_value = e.target.value;
     console.log(user_captcha_value);
     if (validateCaptcha(user_captcha_value) === true) {
-      setDisable(false) // Enable network after successful captcha validation
+      setDisable(false); // Enable network after successful captcha validation
     } else {
       alert("Captcha is not valid");
     }
-    // Add your validation logic here
-    // Example: if (captchaValue === "your-captcha-value") {
-    //   // Form submission logic
-    // } else {
-    //   // Handle captcha validation error
-    // }
   };
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -56,7 +61,7 @@ const LoginPage = () => {
           </p>
         </div>
         <div className="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
-          <form onSubmit={handleLogin} className="card-body">
+          <form onSubmit={handleSubmit(onSubmit)} className="card-body">
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
@@ -64,10 +69,13 @@ const LoginPage = () => {
               <input
                 type="email"
                 name="email"
+                {...register("email", { required: true })}
                 placeholder="email"
                 className="input input-bordered"
-                required
               />
+              {errors.email && (
+                <span className="text-red-800">Email field is required</span>
+              )}
             </div>
             <div className="form-control">
               <label className="label">
@@ -76,35 +84,41 @@ const LoginPage = () => {
               <input
                 type="password"
                 name="password"
+                {...register("password", { required: true })}
                 placeholder="password"
                 className="input input-bordered"
-                required
               />
+              {errors.email && (
+                <span className="text-red-800">Password field is required</span>
+              )}
             </div>
             <div className="form-control">
               <label className="label">
                 <LoadCanvasTemplate />
               </label>
               <input
+                onBlur={handleValidateCaptcha}
                 type="text"
-                ref={captchRef}
                 name="captcha"
                 placeholder="password"
                 className="input input-bordered"
                 required
               />
             </div>
-            <button
-              onClick={handleValidateCaptcha}
-              className="btn btn-outline btn-xs"
-            >
-              Validation
-            </button>
             <div className="form-control mt-6">
-              <input disabled={disable} className="btn btn-primary" type="submit" value="Login" />
+              <input
+                className="btn btn-primary"
+                type="submit"
+                disabled={disable}
+                value="login"
+              />
             </div>
           </form>
-          <p><small>Create a New Account ? <Link to={"/register"}>Register Now</Link></small></p>
+          <p>
+            <small>
+              Create a New Account ? <Link to={"/register"}>Register Now</Link>
+            </small>
+          </p>
         </div>
       </div>
     </div>

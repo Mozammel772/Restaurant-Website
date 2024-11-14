@@ -17,11 +17,11 @@ const navigationLinks = [
   { title: "Home", link: "/" },
   { title: "Our Menu", link: "/all-menu-item" },
   { title: "Order", link: "/order-food-item/salad" },
-  { title: "Testimony", link: "/testimony" },
+  { title: "Secret", link: "/secret" },
 ];
 
 const Navbar = () => {
-  const { user, logout } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
@@ -33,7 +33,12 @@ const Navbar = () => {
   }, []);
 
   const toggleMenu = () => setIsOpen((prev) => !prev);
-  const handleLogout = () => logout();
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
 
   return (
     <div
@@ -43,8 +48,8 @@ const Navbar = () => {
     >
       <Container className="h-full flex items-center justify-between">
         {/* <h1 className="text-xl font-bold">Mozammel Hosen</h1> */}
-          <img src={logoDark} alt="logoDark" className="w-10 " />
-        
+        <img src={logoDark} alt="logoDark" className="w-10 " />
+
         <div className="hidden md:flex items-center gap-x-6 uppercase text-xs lg:text-sm font-medium tracking-wide">
           {navigationLinks.map((item) => (
             <Link
@@ -60,18 +65,23 @@ const Navbar = () => {
             </Link>
           ))}
           {user ? (
-            <span onClick={handleLogout} className="cursor-pointer">
-              LogOut
-            </span>
+            <>
+              <span>{user?.displayName}</span>
+              <span onClick={handleLogout} className="cursor-pointer">
+                LogOut
+              </span>
+            </>
           ) : (
-            <Link
-              to="/login"
-              className={
-                location.pathname === "/login" ? "text-orange-500" : ""
-              }
-            >
-              Login
-            </Link>
+            <>
+              <Link
+                to="/login"
+                className={
+                  location.pathname === "/login" ? "text-orange-500" : ""
+                }
+              >
+                Login
+              </Link>
+            </>
           )}
         </div>
 
