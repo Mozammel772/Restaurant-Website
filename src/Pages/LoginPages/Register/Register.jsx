@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../AuthProvider/AuthProvider";
 const Register = () => {
   const {
     register,
@@ -8,11 +9,13 @@ const Register = () => {
     watch,
     formState: { errors },
   } = useForm();
-
+  const { createUser } = useContext(AuthContext);
   const onSubmit = (data) => {
-    console.log(data);
+    createUser(data.email, data.password).then((result) => {
+      const user = result.user;
+      console.log(user);
+    });
   };
-  console.log(watch("example"));
 
   return (
     <div className="hero bg-base-200 min-h-screen">
@@ -43,13 +46,17 @@ const Register = () => {
                 className="input input-bordered"
               />
               {errors?.name?.type === "required" && (
-                <p>This field is required</p>
+                <p className="text-red-700 mt-1">This field is required</p>
               )}
               {errors?.name?.type === "maxLength" && (
-                <p>First name cannot exceed 20 characters</p>
+                <p className="text-red-700 mt-1">
+                  First name cannot exceed 20 characters
+                </p>
               )}
               {errors?.name?.type === "pattern" && (
-                <p>Alphabetical characters only</p>
+                <p className="text-red-700 mt-1">
+                  Alphabetical characters only
+                </p>
               )}
             </div>
             <div className="form-control">
