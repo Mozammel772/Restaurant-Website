@@ -102,14 +102,14 @@ const LoginPage = () => {
                 name="captcha"
                 placeholder="password"
                 className="input input-bordered"
-                required
+                
               />
             </div>
             <div className="form-control mt-6">
               <input
                 className="btn btn-primary"
                 type="submit"
-                disabled={disable}
+                disabled={false}
                 value="login"
               />
             </div>

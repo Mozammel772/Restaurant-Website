@@ -1,10 +1,13 @@
 import { Dialog, DialogPanel } from "@headlessui/react";
 import { Menu, X } from "lucide-react";
 import React, { useContext, useEffect, useState } from "react";
+import { RiShoppingCartFill } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import logoDark from "../../../assets/icon/logo.png";
+import useCart from "../../../hooks/useCart";
 import { AuthContext } from "../../LoginPages/AuthProvider/AuthProvider";
+
 const Container = ({ children, className }) => {
   return (
     <div className={twMerge("max-w-screen-xl mx-auto px-3", className)}>
@@ -24,6 +27,7 @@ const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [cart] = useCart();
   const location = useLocation();
 
   useEffect(() => {
@@ -64,6 +68,12 @@ const Navbar = () => {
               <span className="w-full h-[1px] bg-white inline-block absolute bottom-0 left-0 -translate-x-[110%] group-hover:translate-x-0 duration-300" />
             </Link>
           ))}
+          <Link>
+            <button className="btn">
+              <RiShoppingCartFill />
+              <div className="badge badge-secondary">+{cart.length}</div>
+            </button>
+          </Link>
           {user ? (
             <>
               <span>{user?.displayName}</span>
@@ -128,6 +138,12 @@ const Navbar = () => {
                   <span className="absolute w-full h-[1px] bg-white/20 left-0 -bottom-1 group-hover:bg-white duration-300" />
                 </Link>
               ))}
+              <Link>
+                <button className="btn">
+                  <RiShoppingCartFill />
+                  <div className="badge badge-secondary">+0</div>
+                </button>
+              </Link>
               {user ? (
                 <span
                   onClick={() => {
