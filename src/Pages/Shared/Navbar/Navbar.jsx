@@ -68,7 +68,7 @@ const Navbar = () => {
               <span className="w-full h-[1px] bg-white inline-block absolute bottom-0 left-0 -translate-x-[110%] group-hover:translate-x-0 duration-300" />
             </Link>
           ))}
-          <Link>
+          <Link to={"/dashboard/cart"}>
             <button className="btn">
               <RiShoppingCartFill />
               <div className="badge badge-secondary">+{cart.length}</div>
@@ -138,7 +138,7 @@ const Navbar = () => {
                   <span className="absolute w-full h-[1px] bg-white/20 left-0 -bottom-1 group-hover:bg-white duration-300" />
                 </Link>
               ))}
-              <Link>
+              <Link to={"/dashboard/cart"}>
                 <button className="btn">
                   <RiShoppingCartFill />
                   <div className="badge badge-secondary">+0</div>
