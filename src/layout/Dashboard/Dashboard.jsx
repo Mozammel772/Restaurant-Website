@@ -1,18 +1,18 @@
 import React from "react";
 import {
-    FaAd,
-    FaCalendar,
-    FaHome,
-    FaList,
-    FaShoppingCart,
+  FaAd,
+  FaCalendar,
+  FaHome,
+  FaList,
+  FaShoppingCart,
 } from "react-icons/fa";
 import { NavLink, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   return (
-    <div className="flex">
-      <div className="w-64 min-h-full bg-orange-400">
-        <ul className="menu p-4">
+    <div className="flex p-4">
+      <div className="w-64 min-h-screen bg-orange-400 rounded-md">
+        <ul className="menu p-4 font-medium text-xl">
           <li>
             <NavLink to={"/dashboard/userHome"}>
               <FaHome></FaHome> User Home
@@ -46,7 +46,7 @@ const Dashboard = () => {
           </li>
         </ul>
       </div>
-      <div className="flex-1">
+      <div className="flex-1 p-8">
         <Outlet />
       </div>
     </div>
