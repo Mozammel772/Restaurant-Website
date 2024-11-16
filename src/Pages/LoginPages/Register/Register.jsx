@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
+import useAxioPublic from "../../../hooks/useAxioPublic";
 import { AuthContext } from "../AuthProvider/AuthProvider";
 const Register = () => {
   const {
@@ -13,24 +14,38 @@ const Register = () => {
   } = useForm();
   const { createUser, updateProfileURL } = useContext(AuthContext);
   const navigate = useNavigate();
+  const axiosPublic = useAxioPublic();
 
   const onSubmit = (data) => {
-    console.log("onSubmit", data);
+    // console.log("onSubmit", data);
     createUser(data.email, data.password).then((result) => {
       const user = result.user;
       console.log(user);
       updateProfileURL(data.name, data.photoURL)
         .then(() => {
-          console.log("Profile updated successfully");
-          reset();
-          Swal.fire({
-            position: "top-end",
-            icon: "success",
-            title: "Create User successfully",
-            showConfirmButton: false,
-            timer: 1500,
+          const userInfo = {
+            email: user.email,
+            name: data.name,
+            photoURL: data.photoURL,
+            password: data.password,
+          };
+          // console.log("Profile updated successfully");
+          axiosPublic.post("/users", userInfo).then((res) => {
+            if (res.data.insertedId) {
+              console.log(
+                "Profile updated successfully data basereed successfully"
+              );
+              reset();
+              Swal.fire({
+                position: "top-end",
+                icon: "success",
+                title: "Create User successfully",
+                showConfirmButton: false,
+                timer: 1500,
+              });
+              navigate("/");
+            }
           });
-          navigate("/");
         })
         .catch((error) => {
           console.log(error);
@@ -136,10 +151,11 @@ const Register = () => {
               />
             </div>
           </form>
-          <p>
-            <small>
-              Already Account ? <Link to={"/login"}>Login Now</Link>
-            </small>
+          <p className="text-xm font-medium text-center mb-3">
+            Already Account ?{" "}
+            <Link to={"/login"}>
+              <span className="text-orange-600 font-bold">Login Now</span>
+            </Link>
           </p>
         </div>
       </div>

@@ -102,7 +102,6 @@ const LoginPage = () => {
                 name="captcha"
                 placeholder="password"
                 className="input input-bordered"
-                
               />
             </div>
             <div className="form-control mt-6">
@@ -114,10 +113,11 @@ const LoginPage = () => {
               />
             </div>
           </form>
-          <p>
-            <small>
-              Create a New Account ? <Link to={"/register"}>Register Now</Link>
-            </small>
+          <p className="text-xm font-medium text-center mb-3">
+            Create a New Account ?{" "}
+            <Link to={"/register"}>
+              <span className="font-bold text-orange-600"> Register Now</span>
+            </Link>
           </p>
         </div>
       </div>
