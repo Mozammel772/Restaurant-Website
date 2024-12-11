@@ -6,7 +6,13 @@ const PrivateRouter = ({ children }) => {
   const { user, loading } = useContext(AuthContext);
   const location = useLocation();
   if (loading) {
-    return <span className="loading loading-spinner text-secondary"></span>;
+    return (
+      <>
+        <div class="flex items-center justify-center h-screen">
+          <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
+        </div>
+      </>
+    );
   }
   if (user) {
     return children;

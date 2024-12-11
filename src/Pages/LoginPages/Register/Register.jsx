@@ -1,11 +1,13 @@
 import React, { useContext } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 import useAxioPublic from "../../../hooks/useAxioPublic";
 import { AuthContext } from "../AuthProvider/AuthProvider";
+import SocialLogin from "../SocialLogin/SocialLogin";
 const Register = () => {
   const {
+    control,
     register,
     handleSubmit,
     reset,
@@ -20,7 +22,6 @@ const Register = () => {
     // console.log("onSubmit", data);
     createUser(data.email, data.password).then((result) => {
       const user = result.user;
-      console.log(user);
       updateProfileURL(data.name, data.photoURL)
         .then(() => {
           const userInfo = {
@@ -112,7 +113,7 @@ const Register = () => {
                 <p className="text-red-700 mt-1">nameURL field is required</p>
               )}
             </div>
-            <div className="form-control">
+            {/* <div className="form-control">
               <label className="label">
                 <span className="label-text">Email</span>
               </label>
@@ -126,7 +127,74 @@ const Register = () => {
               {errors.email && (
                 <span className="text-red-800">Email field is required</span>
               )}
+            </div> */}
+
+            {/* <div>
+              <label className="label">
+                <span className="label-text">Email :</span>
+              </label>
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required: "Email is Required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
+                  },
+                }}
+                render={({ field }) => (
+                  <div>
+                    <input
+                      {...field}
+                      className={`w-full border rounded px-3 py-2 text-gray-700 ${
+                        errors.email ? "border-red-500" : "border-gray-300"
+                      }`}
+                      placeholder="Email ID"
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+              />
+            </div> */}
+
+            <div>
+              <label className="label hover:text-blue-500 transition-colors ">
+                <span className="label-text">Email :</span>
+              </label>
+              <Controller
+                name="email"
+                control={control}
+                rules={{
+                  required: "Email is Required",
+                  pattern: {
+                    value: /^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+                    message: "Invalid email address",
+                  },
+                }}
+                render={({ field }) => (
+                  <div>
+                    <input
+                      {...field}
+                      className={`w-full border rounded px-3 py-2 text-gray-700 transition-colors hover:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-400 ${
+                        errors.email ? "border-red-500" : "border-gray-300"
+                      }`}
+                      placeholder="Email ID"
+                    />
+                    {errors.email && (
+                      <p className="text-red-500 text-sm mt-1">
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
+                )}
+              />
             </div>
+
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
@@ -157,6 +225,9 @@ const Register = () => {
               <span className="text-orange-600 font-bold">Login Now</span>
             </Link>
           </p>
+          <div>
+            <SocialLogin></SocialLogin>
+          </div>
         </div>
       </div>
     </div>
